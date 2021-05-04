@@ -1,8 +1,17 @@
 <template>
   <div>
     <input placeholder="Path" v-model="path" type="text" />
-    <input placeholder="Method" v-model="method" type="text" />
-    <input placeholder="response" v-model="response" type="text" />
+    <select v-model="method">
+      <option value="GET">GET</option>
+      <option value="POST">POST</option>
+      <option value="PUT">PUT</option>
+      <option value="DELETE">DELETE</option>
+    </select>
+    <input placeholder="Description" v-model="description" type="text" />
+    <input placeholder="Response" v-model="response" type="text" />
+    <input placeholder="Status" v-model="status" type="text" />
+    <input placeholder="Time Out" v-model="timeOut" type="text" />
+    <input placeholder="Authenticated" v-model="needsAuthentication" type="checkbox" />
     <button v-show="!isEditing" v-on:click="create">Create</button>
     <button v-show="isEditing" v-on:click="edit">Edit</button>
   </div>
@@ -27,6 +36,10 @@ export default {
     if (this.currentRoute !== this.route) {
       this.path = this.route.path;
       this.method = this.route.method;
+      this.description = this.route.description;
+      this.status = this.route.status;
+      this.timeOut = this.route.timeOut;
+      this.needsAuthentication = this.route.needsAuthentication;
       this.response = JSON.stringify(this.route.response);
       this.currentRoute = this.route;
     }
@@ -35,6 +48,10 @@ export default {
     return {
       path: "",
       method: "",
+      description: "",
+      status: "",
+      timeOut: "",
+      needsAuthentication: false,
       response: "",
       currentRoute: undefined,
     };
@@ -45,6 +62,10 @@ export default {
         .post("route", {
           path: this.path,
           method: this.method,
+          description: this.description,
+          status: this.status === '' ? undefined : parseInt(this.status),
+          timeOut: this.timeOut === '' ? undefined : parseInt(this.timeOut),
+          needsAuthentication: this.needsAuthentication,
           response: JSON.parse(this.response ?? "{}") ?? this.response,
         })
         .then((response) => {
@@ -53,6 +74,10 @@ export default {
           this.path = "";
           this.method = "";
           this.response = "";
+          this.description = "";
+          this.status = "";
+          this.timeOut = "";
+          this.needsAuthentication = "";
           this.onRouteCreated();
         })
         .catch((err) => console.log(err));
@@ -62,6 +87,10 @@ export default {
         .put(`route/${this.route.id}`, {
           path: this.path,
           method: this.method,
+          description: this.description,
+          status: this.status === '' ? undefined : parseInt(this.status),
+          timeOut: this.timeOut === '' ? undefined : parseInt(this.timeOut),
+          needsAuthentication: this.needsAuthentication,
           response: JSON.parse(this.response ?? "{}") ?? this.response,
         })
         .then((response) => {
@@ -70,6 +99,10 @@ export default {
           this.path = "";
           this.method = "";
           this.response = "";
+          this.description = "";
+          this.status = "";
+          this.timeOut = "";
+          this.needsAuthentication = "";
           this.onRouteCreated();
         })
         .catch((err) => console.log(err));
