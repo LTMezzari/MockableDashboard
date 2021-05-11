@@ -1,21 +1,25 @@
 <template>
-  <div id="app">
-    <button v-on:click="getRoutes">Refresh</button>
-    <ListRoutes :routes="routes" :onRouteDeleted="getRoutes" :didPressEdit="editRoute"/>
-    <CreateRoute :route="selected" :onRouteCreated="getRoutes"/>
+  <div class="wrapper">
+    <SideBar :routes="routes" :onRefresh="getRoutes" :onClick="didPressEdit" :onClickNew="didPressNew"/>
+    <div class="main-panel">
+      <!-- <ListRoutes :routes="routes" :onRouteDeleted="getRoutes" :didPressEdit="editRoute"/> -->
+      <CreateRoute :route="selected" :onRouteCreated="getRoutes"/>
+    </div>
   </div>
 </template>
 
 <script>
-import ListRoutes from "./components/ListRoutes";
-import CreateRoute from "./components/CreateRoute";
+// import ListRoutes from "./layout/ListRoutes";
+import CreateRoute from "./layout/CreateRoute";
+import SideBar from "./components/SideBar";
 import api from "./utils/RequestUtils";
 
 export default {
   name: "App",
   components: {
-    ListRoutes,
+    // ListRoutes,
     CreateRoute,
+    SideBar,
   },
   data: function () {
       return {
@@ -29,6 +33,7 @@ export default {
   },
   methods: {
     getRoutes: function () {
+      this.selected = undefined;
       api
         .get("routes")
         .then((response) => {
@@ -38,9 +43,12 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    editRoute: function (route) {
+    didPressEdit: function (route) {
       this.selected = route
     },
+    didPressNew: function () {
+      this.selected = undefined;
+    }
   },
 };
 </script>
