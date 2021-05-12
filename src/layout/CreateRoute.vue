@@ -67,12 +67,12 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <TextField
-            label="Response"
-            placeholder="Response"
-            v-model="response"
-            type="text"
-          />
+          <JsonEditor label="Response" v-model="response" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <JsonEditor label="Body" v-model="body" />
         </div>
       </div>
       <div class="text-center">
@@ -85,15 +85,18 @@
 </template>
 
 <script>
+import api from "../utils/RequestUtils";
+
 import TextField from "../components/TextField";
 import Button from "../components/Button";
-import api from "../utils/RequestUtils";
+import JsonEditor from "../components/JsonEditor";
 
 export default {
   name: "CreateRoute",
   components: {
     TextField,
     Button,
+    JsonEditor,
   },
   props: {
     route: {
@@ -124,7 +127,8 @@ export default {
     this.status = this.route?.status;
     this.timeOut = this.route?.timeOut;
     this.needsAuthentication = this.route?.needsAuthentication;
-    this.response = JSON.stringify(this.route?.response);
+    this.response = this.route?.response;
+    this.body = this.route?.body;
     this.currentRoute = this.route;
   },
   data: function () {
@@ -135,7 +139,8 @@ export default {
       status: "",
       timeOut: "",
       needsAuthentication: false,
-      response: "",
+      response: {},
+      body: {},
       currentRoute: undefined,
     };
   },
@@ -155,7 +160,8 @@ export default {
           status: this.status === "" ? undefined : parseInt(this.status),
           timeOut: this.timeOut === "" ? undefined : parseInt(this.timeOut),
           needsAuthentication: this.needsAuthentication,
-          response: JSON.parse(this.response ?? "{}") ?? this.response,
+          response: this.response,
+          body: this.body,
         })
         .then((response) => {
           if (!response.data || !this.onRouteCreated) return;
@@ -174,7 +180,8 @@ export default {
           status: this.status === "" ? undefined : parseInt(this.status),
           timeOut: this.timeOut === "" ? undefined : parseInt(this.timeOut),
           needsAuthentication: this.needsAuthentication,
-          response: JSON.parse(this.response ?? "{}") ?? this.response,
+          response: this.response,
+          body: this.body,
         })
         .then((response) => {
           if (!response.data || !this.onRouteCreated) return;
@@ -191,6 +198,8 @@ export default {
       this.description = "";
       this.status = "";
       this.timeOut = "";
+      this.response = {};
+      this.body = {};
       this.needsAuthentication = "";
     },
   },

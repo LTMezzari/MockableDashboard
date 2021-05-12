@@ -16,7 +16,7 @@
     name: "TextField",
     props: {
       label: String,
-      value: [String, Number]
+      value: [String, Number, Boolean]
     },
   }
 </script>
