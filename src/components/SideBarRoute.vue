@@ -1,5 +1,5 @@
 <template>
-    <a @click="onPress(route)" class="nav-link">
+    <a @click="$emit('click', $event.target)" class="nav-link">
         <p>{{route.method}}</p>
         <p>{{route.path}}</p>
     </a>
@@ -12,16 +12,6 @@ export default {
     route: {
       type: Object,
       required: true
-    },
-    onPress: {
-      type: Function,
-      required: false,
-    }
-  },
-  methods: {
-    didPress: (route) => {
-      if (!this.onPress) return;
-      this.onPress(route);
     }
   }
 };

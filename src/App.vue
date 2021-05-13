@@ -1,9 +1,14 @@
 <template>
   <div class="wrapper">
-    <SideBar :routes="routes" :onRefresh="getRoutes" :onClick="didPressEdit" :onClickNew="didPressNew"/>
+    <SideBar
+      :routes="routes"
+      v-on:refresh="getRoutes"
+      v-on:edit="didPressEdit"
+      v-on:create="didPressNew"
+    />
     <div class="main-panel">
       <!-- <ListRoutes :routes="routes" :onRouteDeleted="getRoutes" :didPressEdit="editRoute"/> -->
-      <CreateRoute :route="selected" :onRouteCreated="getRoutes"/>
+      <CreateRoute :route="selected" v-on:finished="getRoutes" />
     </div>
   </div>
 </template>
@@ -12,7 +17,7 @@
 // import ListRoutes from "./layout/ListRoutes";
 import CreateRoute from "./layout/CreateRoute";
 import SideBar from "./components/SideBar";
-import api from "./utils/RequestUtils";
+import {getRoutes, States} from "./repository/RoutesRepository";
 
 export default {
   name: "App",
@@ -22,33 +27,37 @@ export default {
     SideBar,
   },
   data: function () {
-      return {
-        routes: [],
-        selected: undefined
-      }
+    return {
+      routes: [],
+      selected: undefined,
+    };
   },
   mounted: function () {
-    this.selected = undefined
+    this.selected = undefined;
     this.getRoutes();
   },
   methods: {
     getRoutes: function () {
       this.selected = undefined;
-      api
-        .get("routes")
-        .then((response) => {
-          if (!response.data) return;
-
-          this.routes = response.data.data;
-        })
-        .catch((err) => console.log(err));
+      getRoutes().observe((state, data) => {
+        switch (state) {
+          case States.SUCCESSFUL:
+            this.routes = data;
+            break;
+          case States.FAILED:
+            alert(data.message);
+            break;
+          default:
+            break;
+        }
+      });
     },
     didPressEdit: function (route) {
-      this.selected = route
+      this.selected = route;
     },
     didPressNew: function () {
       this.selected = undefined;
-    }
+    },
   },
 };
 </script>

@@ -1,8 +1,10 @@
 <template>
   <div class="form-group">
-    <label v-if="label" class="control-label">
-      {{label}}
-    </label>
+    <slot name="label">
+      <label v-if="label" class="control-label">
+        {{label}}
+      </label>
+    </slot>
     <input
       :value="value"
       @input="$emit('input',$event.target.value)"
