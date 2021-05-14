@@ -1,18 +1,24 @@
 <template>
-  <div class="expandable" @click="onExpanded">
-    <slot name="label">
-      <label v-if="label" class="control-label">
-        {{ label }}
-      </label>
+  <div v-bind="$attrs">
+    <slot name="header">
+      <div class="expandable" @click="onExpanded" >
+        <slot name="label">
+          <label v-if="label" class="control-label">
+            {{ label }}
+          </label>
+        </slot>
+      </div>
     </slot>
     <div v-if="isInternallyExpanded">
       <slot></slot>
     </div>
+    <slot name="footer"></slot>
   </div>
 </template>
 <script>
 export default {
   name: "ExpandableView",
+  inheritAttrs: false,
   props: {
     isExpanded: {
       type: Boolean,

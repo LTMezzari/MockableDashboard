@@ -9,8 +9,8 @@
         <a class="simple-text"> Mockable </a>
         <button class="btn-sm" v-on:click="$emit('refresh')">Refresh</button>
         <button class="btn-sm" v-on:click="$emit('create')">New</button>
-        <button class="btn-sm" v-on:click="$emit('swagger')">Swagger</button>
-        <button class="btn-sm" v-on:click="$emit('postman')">Postman</button>
+        <button class="btn-sm" v-on:click="$emit('import')">Import</button>
+        <button class="btn-sm" v-on:click="$emit('export')">Export</button>
       </div>
       <ul class="nav">
         <SideBarRoute

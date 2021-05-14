@@ -26,33 +26,6 @@
             type="text"
           />
         </div>
-        <div class="col-md-2">
-          <text-field
-            label="Status"
-            placeholder="Status"
-            v-model="status"
-            type="number"
-          />
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-2">
-          <text-field
-            label="Time Out"
-            placeholder="Time Out"
-            v-model="timeOut"
-            type="number"
-          />
-        </div>
-        <div class="col-md-1">
-          <text-field
-            label="Authenticated"
-            placeholder="Authenticated"
-            v-model="needsAuthentication"
-            type="checkbox"
-          />
-        </div>
       </div>
 
       <div class="row">
@@ -76,12 +49,49 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <expandable-view label="Body" >
+          <expandable-view label="Body">
             <slot>
               <json-editor v-model="body" />
             </slot>
           </expandable-view>
         </div>
+      </div>
+      <div class="row">
+        <expandable-view class="col-md-12" label="Configuration">
+          <div class="row">
+            <div class="col-md-2">
+              <text-field
+                label="Status"
+                placeholder="Status"
+                v-model="status"
+                type="number"
+              />
+            </div>
+            <div class="col-md-2">
+              <text-field
+                label="Time Out"
+                placeholder="Time Out"
+                v-model="timeOut"
+                type="number"
+              />
+            </div>
+            <div class="col-md-1">
+              <text-field
+                label="Authenticated"
+                placeholder="Authenticated"
+                v-model="needsAuthentication"
+                type="checkbox"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <slot>
+                <json-editor label="Validator" />
+              </slot>
+            </div>
+          </div>
+        </expandable-view>
       </div>
       <div class="text-center">
         <Button type="info" round @click.native.prevent="onSubmit">
@@ -128,7 +138,7 @@ export default {
     TextField,
     Button,
     JsonEditor,
-    ExpandableView
+    ExpandableView,
   },
   props: {
     route: {
