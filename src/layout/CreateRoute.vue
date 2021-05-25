@@ -79,7 +79,7 @@
               <text-field
                 label="Authenticated"
                 placeholder="Authenticated"
-                v-model="needsAuthentication"
+                v-model="authentication"
                 type="checkbox"
               />
             </div>
@@ -87,7 +87,7 @@
           <div class="row">
             <div class="col-md-12">
               <slot>
-                <json-editor label="Validator" />
+                <json-editor label="Validator" v-model="validation" />
               </slot>
             </div>
           </div>
@@ -153,10 +153,18 @@ export default {
       description: "",
       status: 200,
       timeOut: "",
-      needsAuthentication: false,
+      authentication: false,
       response: {},
       body: {},
+      validation: {}
     };
+  },
+  mounted: function () {
+    if (!this.route) {
+      return;
+    }
+    this.fillFields(this.route);
+    this.get();
   },
   watch: {
     route: function (value) {
@@ -164,14 +172,7 @@ export default {
         this.clearFields();
         return;
       }
-      this.path = value.path;
-      this.method = value.method;
-      this.description = value.description;
-      this.status = value.status;
-      this.timeOut = value.timeOut;
-      this.needsAuthentication = value.needsAuthentication;
-      this.response = value.response;
-      this.body = value.body;
+      this.fillFields(value);
       this.get();
     },
   },
@@ -183,8 +184,11 @@ export default {
       }
       this.create();
     },
-    onRouteFinished: function () {
-      this.$emit("finished");
+    onRouteFinished: function (route) {
+      this.$emit("finished", route);
+    },
+    onRouteDeleted: function () {
+      this.$emit("deleted");
     },
     extractBody: function () {
       return {
@@ -193,9 +197,10 @@ export default {
         description: this.description,
         status: !this.status ? undefined : parseInt(this.status),
         timeOut: !this.timeOut ? undefined : parseInt(this.timeOut),
-        needsAuthentication: this.needsAuthentication,
+        authentication: this.authentication,
         response: this.response,
         body: this.body,
+        validation: this.validation
       };
     },
     clearFields: function () {
@@ -207,7 +212,19 @@ export default {
       this.timeOut = "";
       this.response = {};
       this.body = {};
-      this.needsAuthentication = "";
+      this.authentication = false;
+      this.validation = {};
+    },
+    fillFields: function (value) {
+      this.path = value.path;
+      this.method = value.method;
+      this.description = value.description;
+      this.status = value.status;
+      this.timeOut = value.timeOut;
+      this.authentication = value.authentication;
+      this.response = value.response;
+      this.body = value.body;
+      this.validation = value.validation;
     },
     // --------------------- Service Methods
     get: function () {
@@ -227,8 +244,7 @@ export default {
       postRoute(this.extractBody()).observe((state, data) => {
         switch (state) {
           case States.SUCCESSFUL:
-            this.clearFields();
-            this.onRouteFinished();
+            this.onRouteFinished(data);
             break;
           case States.FAILED:
             alert(data.message);
@@ -242,8 +258,7 @@ export default {
       putRoute(this.route.id, this.extractBody()).observe((state, data) => {
         switch (state) {
           case States.SUCCESSFUL:
-            this.clearFields();
-            this.onRouteFinished();
+            this.onRouteFinished(data);
             break;
           case States.FAILED:
             alert(data.message);
@@ -258,7 +273,7 @@ export default {
         switch (state) {
           case States.SUCCESSFUL:
             this.clearFields();
-            this.onRouteFinished();
+            this.onRouteDeleted();
             break;
           case States.FAILED:
             alert(data.message);

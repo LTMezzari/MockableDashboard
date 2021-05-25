@@ -1,39 +1,35 @@
 <template>
   <div class="wrapper">
-    <SideBar
+    <side-bar
       :routes="routes"
       v-on:refresh="getRoutes"
       v-on:edit="didPressEdit"
-      v-on:create="didPressNew"
     />
     <div class="main-panel">
-      <!-- <ListRoutes :routes="routes" :onRouteDeleted="getRoutes" :didPressEdit="editRoute"/> -->
-      <CreateRoute :route="selected" v-on:finished="getRoutes" />
+      <!-- HEADER -->
+      <route-editor ref="editor" v-on:updated="getRoutes" />
+      <!-- FOOTER -->
     </div>
   </div>
 </template>
 
 <script>
-// import ListRoutes from "./layout/ListRoutes";
-import CreateRoute from "./layout/CreateRoute";
-import SideBar from "./components/SideBar";
+import RouteEditor from "./layout/RouteEditor.vue";
+import SideBar from "./layout/SideBar.vue";
 import {getRoutes, States} from "./repository/RoutesRepository";
 
 export default {
   name: "App",
   components: {
-    // ListRoutes,
-    CreateRoute,
+    RouteEditor,
     SideBar,
   },
   data: function () {
     return {
       routes: [],
-      selected: undefined,
     };
   },
   mounted: function () {
-    this.selected = undefined;
     this.getRoutes();
   },
   methods: {
@@ -53,10 +49,7 @@ export default {
       });
     },
     didPressEdit: function (route) {
-      this.selected = route;
-    },
-    didPressNew: function () {
-      this.selected = undefined;
+      this.$refs.editor.putTab(route);
     },
   },
 };

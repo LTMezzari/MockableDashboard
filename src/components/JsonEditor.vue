@@ -57,7 +57,7 @@ export default {
   },
   props: {
     label: String,
-    value: Object,
+    value: [Object, Array],
   },
 };
 </script>

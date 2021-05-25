@@ -8,12 +8,11 @@
       <div class="logo">
         <a class="simple-text"> Mockable </a>
         <button class="btn-sm" v-on:click="$emit('refresh')">Refresh</button>
-        <button class="btn-sm" v-on:click="$emit('create')">New</button>
         <button class="btn-sm" v-on:click="$emit('import')">Import</button>
         <button class="btn-sm" v-on:click="$emit('export')">Export</button>
       </div>
       <ul class="nav">
-        <SideBarRoute
+        <side-bar-route
           v-for="(item, index) in routes"
           :key="index"
           :route="item"
@@ -24,7 +23,7 @@
   </div>
 </template>
 <script>
-import SideBarRoute from "./SideBarRoute";
+import SideBarRoute from "../components/SideBarRoute.vue";
 export default {
   name: "SideBar",
   props: {
