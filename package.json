@@ -9,10 +9,14 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "bootstrap": "^4.0.0",
     "core-js": "^3.6.5",
     "v-jsoneditor": "^1.4.2",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-js-modal": "^2.0.0-rc.6",
+    "vue-notifyjs": "^0.4.3",
+    "vue-router": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

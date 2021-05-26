@@ -1,59 +1,38 @@
 <template>
-  <div class="wrapper">
-    <side-bar
-      :routes="routes"
-      v-on:refresh="getRoutes"
-      v-on:edit="didPressEdit"
-    />
-    <div class="main-panel">
-      <!-- HEADER -->
-      <route-editor ref="editor" v-on:updated="getRoutes" />
-      <!-- FOOTER -->
-    </div>
+  <div>
+    <notifications></notifications>
+    <router-view></router-view>
   </div>
 </template>
-
 <script>
-import RouteEditor from "./layout/RouteEditor.vue";
-import SideBar from "./layout/SideBar.vue";
-import {getRoutes, States} from "./repository/RoutesRepository";
-
-export default {
-  name: "App",
-  components: {
-    RouteEditor,
-    SideBar,
-  },
-  data: function () {
-    return {
-      routes: [],
-    };
-  },
-  mounted: function () {
-    this.getRoutes();
-  },
-  methods: {
-    getRoutes: function () {
-      this.selected = undefined;
-      getRoutes().observe((state, data) => {
-        switch (state) {
-          case States.SUCCESSFUL:
-            this.routes = data;
-            break;
-          case States.FAILED:
-            alert(data.message);
-            break;
-          default:
-            break;
-        }
-      });
-    },
-    didPressEdit: function (route) {
-      this.$refs.editor.putTab(route);
-    },
-  },
-};
+export default {};
 </script>
+<style lang="scss">
+.vue-notifyjs.notifications {
+  .alert {
+    z-index: 10000;
+  }
+  .list-move {
+    transition: transform 0.3s, opacity 0.4s;
+  }
+  .list-item {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .list-enter-active {
+    transition: transform 0.2s ease-in, opacity 0.4s ease-in;
+  }
+  .list-leave-active {
+    transition: transform 1s ease-out, opacity 0.4s ease-out;
+  }
 
-<style>
+  .list-enter {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  .list-leave-to {
+    opacity: 0;
+    transform: scale(1.2, 0.7);
+  }
+}
 </style>

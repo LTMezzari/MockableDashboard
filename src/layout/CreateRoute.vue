@@ -127,10 +127,11 @@ import {
   States,
 } from "../repository/RoutesRepository";
 
-import TextField from "../components/TextField";
-import Button from "../components/Button";
-import JsonEditor from "../components/JsonEditor";
-import ExpandableView from "../components/ExpandableView";
+import TextField from "../components/TextField.vue";
+import Button from "../components/Button.vue";
+import JsonEditor from "../components/JsonEditor.vue";
+import ExpandableView from "../components/ExpandableView.vue";
+import RouteLogsModal from "../components/RouteLogsModal.vue";
 
 export default {
   name: "CreateRoute",
@@ -156,7 +157,8 @@ export default {
       authentication: false,
       response: {},
       body: {},
-      validation: {}
+      validation: {},
+      logs: []
     };
   },
   mounted: function () {
@@ -194,14 +196,23 @@ export default {
       return {
         path: this.path,
         method: this.method,
-        description: this.description,
-        status: !this.status ? undefined : parseInt(this.status),
-        timeOut: !this.timeOut ? undefined : parseInt(this.timeOut),
+        description: this.handleString(this.description),
+        status: this.handleInt(this.status),
+        timeOut: this.handleInt(this.timeOut),
         authentication: this.authentication,
         response: this.response,
-        body: this.body,
-        validation: this.validation
+        body: this.handleObject(this.body),
+        validation: this.handleObject(this.validation)
       };
+    },
+    handleString: function(value) {
+      return value && value !== '' ? value : undefined;
+    },
+    handleInt: function(value) {
+      return value ? parseInt(value, 10) : undefined;
+    },
+    handleObject: function(value) {
+      return !value || value === {} ? undefined : value;
     },
     clearFields: function () {
       this.path = "";
@@ -225,15 +236,35 @@ export default {
       this.response = value.response;
       this.body = value.body;
       this.validation = value.validation;
+      this.logs = value.logs;
+    },
+    showError: function (message) {
+      this.$notify({
+        type: 'danger',
+        title: 'Error',
+        message: message,
+        verticalAlign: 'top',
+        horizontalAlign: 'right',
+      });
+    },
+    showSuccess: function (message) {
+      this.$notify({
+        type: 'success',
+        title: 'Success',
+        message: message,
+        verticalAlign: 'bottom',
+        horizontalAlgn: 'right',
+      });
     },
     // --------------------- Service Methods
     get: function () {
       getRoute(this.route.id).observe((state, data) => {
         switch (state) {
           case States.SUCCESSFUL:
+            this.fillFields(data);
             break;
           case States.FAILED:
-            alert(data.message);
+            this.showError(data.message);
             break;
           default:
             break;
@@ -245,9 +276,10 @@ export default {
         switch (state) {
           case States.SUCCESSFUL:
             this.onRouteFinished(data);
+            this.showSuccess('Route Created');
             break;
           case States.FAILED:
-            alert(data.message);
+            this.showError(data.message);
             break;
           default:
             break;
@@ -259,9 +291,10 @@ export default {
         switch (state) {
           case States.SUCCESSFUL:
             this.onRouteFinished(data);
+            this.showSuccess('Route Updated');
             break;
           case States.FAILED:
-            alert(data.message);
+            this.showError(data.message);
             break;
           default:
             break;
@@ -274,15 +307,29 @@ export default {
           case States.SUCCESSFUL:
             this.clearFields();
             this.onRouteDeleted();
+            this.showSuccess('Route Deleted');
             break;
           case States.FAILED:
-            alert(data.message);
+            this.showError(data.message);
             break;
           default:
             break;
         }
       });
     },
+    onLogs: function () {
+      this.$modal.show(
+        RouteLogsModal,
+        {
+          route: this.route,
+          logs: this.logs,
+        },
+        {
+          adaptive: true,
+          scrollable: true
+        }
+      );
+    }
   },
   computed: {
     isEditing: function () {

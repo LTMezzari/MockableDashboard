@@ -4,9 +4,10 @@
         <div class="horizontal-header">
             <div class="tab" v-for="(tab, index) in tabs" :key="index" v-on:click="selectTab(tab, index)">
                 {{tab.name}}
+                <button type="button" aria-hidden="true" class="close" @click="removeTab(index)">×</button>
             </div>
-            <div v-on:click="putTab()">
-                Add
+            <div class="tab-add" v-on:click="putTab()">
+                <button type="button" aria-hidden="true" class="close">+</button>
             </div>
         </div>
         <!-- Content -->
@@ -17,7 +18,7 @@
 </template>
 <script>
 import CreateRoute from './CreateRoute.vue';
-const maxTabs = 5;
+const maxTabs = 0;
 export default {
     name: 'RouteEditor',
     components: {
@@ -48,6 +49,8 @@ export default {
             this.removeTab(index);
             if (this.currentTab === index) {
                 this.currentTab--;
+                const tab = this.tabs[this.currentTab];
+                this.currentRoute = tab?.route;
             }
         },
         hasRouteTabOpen: function (route) {
@@ -104,6 +107,7 @@ export default {
             }
             this.currentTab = index;
             this.currentRoute = tab.route;
+            this.$forceUpdate();
         },
         createTab: function (id, route) {
             return {
@@ -118,6 +122,9 @@ export default {
             return this.currentTab >= 0;
         },
         isAboveTabLimit: function () {
+            if (maxTabs <= 0) {
+                return false;
+            }
             return this.tabs.length >= maxTabs;
         }
     }
@@ -130,7 +137,19 @@ export default {
     flex-wrap: wrap;
 }
 .tab {
-    flex-direction: row;
     flex: 1;
+    min-width: 150px;
+    max-width: 200px;
+    display: inline-block;
+    margin-right: 8px;
+    margin-bottom: 4px;
+}
+.tab-add {
+    max-width: 50px;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    height: 100%;
 }
 </style>
