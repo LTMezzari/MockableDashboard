@@ -17,8 +17,17 @@
     inheritAttrs: false,
     name: "TextField",
     props: {
-      label: String,
-      value: [String, Number, Boolean]
+      label: {
+        type: String,
+        required: false,
+      },
+      value: {
+        type: [String, Number, Boolean],
+        required: false,
+        default: function () {
+          return undefined;
+        }
+      }
     },
   }
 </script>

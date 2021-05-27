@@ -131,7 +131,7 @@ import TextField from "../components/TextField.vue";
 import Button from "../components/Button.vue";
 import JsonEditor from "../components/JsonEditor.vue";
 import ExpandableView from "../components/ExpandableView.vue";
-import RouteLogsModal from "../components/RouteLogsModal.vue";
+import RouteLogsModal from "./RouteLogs.vue";
 
 export default {
   name: "CreateRoute",

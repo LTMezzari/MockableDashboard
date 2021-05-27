@@ -9,7 +9,7 @@
     </div>
 </template>
 <script>
-import ExpandableView from './ExpandableView.vue';
+import ExpandableView from '../components/ExpandableView.vue';
 
 export default {
     name: 'RouteLogsModal',

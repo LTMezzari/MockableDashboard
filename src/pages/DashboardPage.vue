@@ -5,6 +5,8 @@
         :routes="routes"
         v-on:refresh="getRoutes"
         v-on:edit="didPressEdit"
+        v-on:import="didPressImport"
+        v-on:export="didPressExport"
       />
       <div class="main-panel">
         <route-editor ref="editor" v-on:updated="getRoutes" />
@@ -14,9 +16,13 @@
 </template>
 
 <script>
+import {getRoutes, States} from "../repository/RoutesRepository";
 import RouteEditor from "../layout/RouteEditor.vue";
 import SideBar from "../layout/SideBar.vue";
-import {getRoutes, States} from "../repository/RoutesRepository";
+
+// Modals
+import RouteImporter from "../layout/RouteImporter.vue";
+import RouteExporter from "../layout/RouteExporter.vue";
 
 export default {
   name: "DashboardPage",
@@ -34,7 +40,6 @@ export default {
   },
   methods: {
     getRoutes: function () {
-      this.selected = undefined;
       getRoutes().observe((state, data) => {
         switch (state) {
           case States.SUCCESSFUL:
@@ -51,6 +56,14 @@ export default {
     didPressEdit: function (route) {
       this.$refs.editor.putTab(route);
     },
+    didPressImport: function () {
+      this.$modal.show(
+        RouteImporter,
+      );
+    },
+    didPressExport: function () {
+      this.$modal.show(RouteExporter);
+    }
   },
 };
 </script>
