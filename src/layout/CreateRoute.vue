@@ -2,6 +2,16 @@
   <div class="subcard">
     <form @submit.prevent>
       <div class="row">
+        <div class="col-md-5">
+          <text-field
+            label="Name"
+            placeholder="Name"
+            v-model="name"
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-2">
           <text-field
             label="Method"
@@ -10,12 +20,6 @@
             v-model="method"
             type="text"
           />
-          <!-- <select v-model="method">
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT">PUT</option>
-            <option value="DELETE">DELETE</option>
-          </select> -->
         </div>
         <div class="col-md-7">
           <text-field
@@ -151,6 +155,7 @@ export default {
     return {
       path: "",
       method: "",
+      name: "",
       description: "",
       status: 200,
       timeOut: "",
@@ -196,6 +201,7 @@ export default {
       return {
         path: this.path,
         method: this.method,
+        name: this.handleString(this.name),
         description: this.handleString(this.description),
         status: this.handleInt(this.status),
         timeOut: this.handleInt(this.timeOut),
@@ -218,6 +224,7 @@ export default {
       this.path = "";
       this.method = "";
       this.response = "";
+      this.name = "";
       this.description = "";
       this.status = 200;
       this.timeOut = "";
@@ -229,6 +236,7 @@ export default {
     fillFields: function (value) {
       this.path = value.path;
       this.method = value.method;
+      this.name = value.name ?? value.path;
       this.description = value.description;
       this.status = value.status;
       this.timeOut = value.timeOut;
@@ -326,7 +334,10 @@ export default {
         },
         {
           adaptive: true,
-          scrollable: true
+          scrollable: true,
+          reset: true,
+          height: 'auto',
+          width: '90%',
         }
       );
     }

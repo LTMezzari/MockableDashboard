@@ -4,7 +4,7 @@
         <div class="horizontal-header">
             <div class="tab" v-for="(tab, index) in tabs" :key="index" v-on:click="selectTab(tab, index)">
                 {{tab.name}}
-                <button type="button" aria-hidden="true" class="close" @click="removeTab(index)">×</button>
+                <button type="button" aria-hidden="true" class="close" v-on:click.stop="onTabClosed(index)">×</button>
             </div>
             <div class="tab-add" v-on:click="putTab()">
                 <button type="button" aria-hidden="true" class="close">+</button>
@@ -33,6 +33,13 @@ export default {
     },
     methods: {
         // -------------------------- Handlers
+        onTabClosed: function (index) {
+            if (this.currentTab === index) {
+                this.currentTab = -1;
+                this.currentRoute = undefined;
+            }
+            this.removeTab(index);
+        },
         onTabLimitReached: function (route) {
             this.currentRoute = route;
             this.currentTab = 0;

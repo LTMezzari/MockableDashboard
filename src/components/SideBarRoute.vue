@@ -1,7 +1,7 @@
 <template>
     <a @click="$emit('click', $event.target)" class="nav-link">
         <p>{{route.method}}</p>
-        <p>{{route.path}}</p>
+        <p>{{route.name || route.path}}</p>
     </a>
 </template>
 <script>
