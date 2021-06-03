@@ -5,7 +5,14 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  mounted: function () {
+    if (localStorage.identifier) return;
+    const randomNumber = Math.random() * (Math.random() + 2000);
+    const identifier = new Buffer(navigator.userAgent + randomNumber).toString("base64");
+    localStorage.identifier = identifier;
+  }
+};
 </script>
 <style lang="scss">
 .vue-notifyjs.notifications {

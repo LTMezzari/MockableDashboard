@@ -3,7 +3,7 @@
     <slot name="header">
       <div class="expandable" @click="onExpanded" >
         <slot name="label">
-          <label v-if="label" class="control-label">
+          <label v-if="label" class="control-label expandable-label">
             {{ label }}
           </label>
         </slot>
@@ -50,9 +50,16 @@ export default {
 };
 </script>
 <style scoped>
+.expandable-label {
+  color: white;
+  margin: 16px;
+}
 .expandable {
   min-height: 50px;
   margin-top: 32px;
-  background-color: cadetblue;
+  background-color: #555B62;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  align-items: center;
 }
 </style>

@@ -32,4 +32,12 @@
   }
 </script>
 <style>
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+.form-control {
+  background-color: #555B62;
+  color: white;
+}
 </style>

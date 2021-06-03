@@ -5,7 +5,7 @@
         <div class="col-md-5">
           <text-field
             label="Name"
-            placeholder="Name"
+            :placeholder="routeNamePlaceholder"
             v-model="name"
             type="text"
           />
@@ -29,6 +29,11 @@
             v-model="path"
             type="text"
           />
+        </div>
+        <div class="col-md-2 text-center save">
+          <Button type="info" round @click.native.prevent="onSubmit">
+            Save
+          </Button>
         </div>
       </div>
 
@@ -98,8 +103,13 @@
         </expandable-view>
       </div>
       <div class="text-center">
-        <Button type="info" round @click.native.prevent="onSubmit">
-          {{ isEditing ? "Edit" : "Create" }}
+        <Button
+          v-if="isEditing"
+          type="info"
+          round
+          @click.native.prevent="onTest"
+        >
+          Test
         </Button>
         <Button
           v-if="isEditing"
@@ -135,7 +145,9 @@ import TextField from "../components/TextField.vue";
 import Button from "../components/Button.vue";
 import JsonEditor from "../components/JsonEditor.vue";
 import ExpandableView from "../components/ExpandableView.vue";
-import RouteLogsModal from "./RouteLogs.vue";
+
+import RouteLogs from "./RouteLogs.vue";
+import RouteTest from "./RouteTest.vue";
 
 export default {
   name: "CreateRoute",
@@ -163,7 +175,7 @@ export default {
       response: {},
       body: {},
       validation: {},
-      logs: []
+      logs: [],
     };
   },
   mounted: function () {
@@ -208,16 +220,16 @@ export default {
         authentication: this.authentication,
         response: this.response,
         body: this.handleObject(this.body),
-        validation: this.handleObject(this.validation)
+        validation: this.handleObject(this.validation),
       };
     },
-    handleString: function(value) {
-      return value && value !== '' ? value : undefined;
+    handleString: function (value) {
+      return value && value !== "" ? value : undefined;
     },
-    handleInt: function(value) {
+    handleInt: function (value) {
       return value ? parseInt(value, 10) : undefined;
     },
-    handleObject: function(value) {
+    handleObject: function (value) {
       return !value || value === {} ? undefined : value;
     },
     clearFields: function () {
@@ -236,7 +248,7 @@ export default {
     fillFields: function (value) {
       this.path = value.path;
       this.method = value.method;
-      this.name = value.name ?? value.path;
+      this.name = value.name;
       this.description = value.description;
       this.status = value.status;
       this.timeOut = value.timeOut;
@@ -248,20 +260,20 @@ export default {
     },
     showError: function (message) {
       this.$notify({
-        type: 'danger',
-        title: 'Error',
+        type: "danger",
+        title: "Error",
         message: message,
-        verticalAlign: 'top',
-        horizontalAlign: 'right',
+        verticalAlign: "top",
+        horizontalAlign: "right",
       });
     },
     showSuccess: function (message) {
       this.$notify({
-        type: 'success',
-        title: 'Success',
+        type: "success",
+        title: "Success",
         message: message,
-        verticalAlign: 'bottom',
-        horizontalAlgn: 'right',
+        verticalAlign: "bottom",
+        horizontalAlgn: "right",
       });
     },
     // --------------------- Service Methods
@@ -284,7 +296,7 @@ export default {
         switch (state) {
           case States.SUCCESSFUL:
             this.onRouteFinished(data);
-            this.showSuccess('Route Created');
+            this.showSuccess("Route Created");
             break;
           case States.FAILED:
             this.showError(data.message);
@@ -299,7 +311,7 @@ export default {
         switch (state) {
           case States.SUCCESSFUL:
             this.onRouteFinished(data);
-            this.showSuccess('Route Updated');
+            this.showSuccess("Route Updated");
             break;
           case States.FAILED:
             this.showError(data.message);
@@ -315,7 +327,7 @@ export default {
           case States.SUCCESSFUL:
             this.clearFields();
             this.onRouteDeleted();
-            this.showSuccess('Route Deleted');
+            this.showSuccess("Route Deleted");
             break;
           case States.FAILED:
             this.showError(data.message);
@@ -327,7 +339,7 @@ export default {
     },
     onLogs: function () {
       this.$modal.show(
-        RouteLogsModal,
+        RouteLogs,
         {
           route: this.route,
           logs: this.logs,
@@ -336,16 +348,37 @@ export default {
           adaptive: true,
           scrollable: true,
           reset: true,
-          height: 'auto',
-          width: '90%',
+          height: "auto",
+          width: "90%",
         }
       );
-    }
+    },
+    onTest: function () {
+      this.$modal.show(
+        RouteTest,
+        {
+          route: this.route,
+        },
+        {
+          adaptive: true,
+          scrollable: true,
+          reset: true,
+          height: "auto",
+          width: "90%",
+        }
+      );
+    },
   },
   computed: {
     isEditing: function () {
       return !!this.route;
     },
+    routeNamePlaceholder: function () {
+      if (!this.path || this.path === '') {
+        return 'Name';
+      }
+      return this.path;
+    }
   },
 };
 </script>
@@ -353,5 +386,8 @@ export default {
 <style scoped>
 .subcard {
   padding: 32px;
+}
+.save {
+  align-self: center;
 }
 </style>

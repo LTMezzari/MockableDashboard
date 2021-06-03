@@ -1,10 +1,6 @@
 <template>
-  <div
-    class="sidebar"
-    data-background-color="black"
-    data-active-color="success"
-  >
-    <div class="sidebar-wrapper" id="style-3">
+  <div class="sidebar">
+    <div class="sidebar-wrapper">
       <div class="logo">
         <a class="simple-text"> Mockable </a>
         <button class="btn-sm" v-on:click="$emit('refresh')">Refresh</button>
@@ -37,5 +33,18 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+.nav {
+  display: block;
+}
+.logo {
+  border-color: white !important;
+}
+.sidebar-wrapper {
+  background-color: #1C1E21;
+  box-shadow: none !important;
+}
+.simple-text {
+  color: white !important;
+}
 </style>

@@ -7,10 +7,10 @@
                     <expandable-view v-if="log.data.headers" label="Headers">
                         {{log.data.headers}}
                     </expandable-view>
-                    <expandable-view v-if="log.data.body" label="Params">
+                    <expandable-view v-if="log.data.params" label="Params">
                         {{log.data.params}}
                     </expandable-view>
-                    <expandable-view v-if="log.data.body" label="Query">
+                    <expandable-view v-if="log.data.query" label="Query">
                         {{log.data.query}}
                     </expandable-view>
                     <expandable-view v-if="log.data.body" label="Body">
