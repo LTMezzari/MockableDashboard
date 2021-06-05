@@ -1,5 +1,5 @@
 <template>
-  <div class="subcard">
+  <div class="root">
     <form @submit.prevent>
       <div class="row">
         <div class="col-md-2">
@@ -19,16 +19,21 @@
             type="text"
           />
         </div>
+        <div class="col-md-2 text-center save">
+          <Button type="info" round @click.native.prevent="onTest">
+            Test
+          </Button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <key-value-editor label="Headers" v-model="headers" />
+        </div>
       </div>
       <div class="row">
         <div class="col-md-12">
           <json-editor label="Body" v-model="body" />
         </div>
-      </div>
-      <div class="text-center">
-        <Button type="warning" round @click.native.prevent="onTest">
-          Test
-        </Button>
       </div>
     </form>
   </div>
@@ -40,6 +45,7 @@ import { testMethod, States } from "../repository/DynamicRepository";
 import TextField from "../components/TextField.vue";
 import Button from "../components/Button.vue";
 import JsonEditor from "../components/JsonEditor.vue";
+import KeyValueEditor from "../components/KeyValueEditor.vue";
 
 export default {
   name: "CreateRoute",
@@ -47,6 +53,7 @@ export default {
     TextField,
     Button,
     JsonEditor,
+    KeyValueEditor,
   },
   props: {
     route: {
@@ -58,6 +65,7 @@ export default {
     return {
       path: this.route.path,
       method: this.route.method,
+      headers: [],
       body: {},
     };
   },
@@ -80,11 +88,24 @@ export default {
         horizontalAlgn: "right",
       });
     },
+    buildHeaders: function () {
+      const result = {};
+      for (const { key, value } of this.headers) {
+        result[key] = value;
+      }
+      return result;
+    },
     onTest: function () {
-      testMethod(this.method, this.path, this.body).observe((state, data) => {
+      testMethod(
+        this.method,
+        this.path,
+        this.body,
+        this.buildHeaders()
+      ).observe((state, data) => {
         switch (state) {
           case States.SUCCESSFUL:
-            this.showSuccess('Request successful, check your logs');
+            this.showSuccess("Request successful, check your logs");
+            this.$emit("refresh");
             break;
           case States.FAILED:
             this.showError(data.message);
@@ -99,7 +120,11 @@ export default {
 </script>
 
 <style scoped>
-.subcard {
+.root {
   padding: 32px;
+  background-color: #1c1e21;
+}
+.save {
+  align-self: center;
 }
 </style>

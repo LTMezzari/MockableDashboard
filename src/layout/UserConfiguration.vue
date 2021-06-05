@@ -1,5 +1,5 @@
 <template>
-  <div class="subcard">
+  <div class="root">
     <form @submit.prevent>
       <div class="row">
         <div class="col-md-10">
@@ -32,6 +32,7 @@
     </form>
   </div>
 </template>
+
 <script>
 import TextField from '../components/TextField';
 import Button from '../components/Button';
@@ -75,8 +76,10 @@ export default {
     }
 };
 </script>
+
 <style scoped>
-.subcard {
-  padding: 32px;
+.root {
+  padding: 16px;
+  background-color: #1c1e21;
 }
 </style>

@@ -31,7 +31,7 @@
           />
         </div>
         <div class="col-md-2 text-center save">
-          <Button type="info" round @click.native.prevent="onSubmit">
+          <Button type="info" :disabled="isSavingDisabled" round @click.native.prevent="onSubmit">
             Save
           </Button>
         </div>
@@ -129,6 +129,26 @@
         </Button>
       </div>
     </form>
+    <modal
+      name="logsModal"
+      :adaptative="true"
+      :scrollable="true"
+      :reset="true"
+      height="auto"
+      width="50%"
+    >
+      <RouteLogs :route="route" :logs="logs" />
+    </modal>
+    <modal
+      name="testModal"
+      :adaptative="true"
+      :scrollable="true"
+      :reset="true"
+      height="auto"
+      width="90%"
+    >
+      <RouteTest :route="route" @refresh="get"/>
+    </modal>
   </div>
 </template>
 
@@ -156,6 +176,8 @@ export default {
     Button,
     JsonEditor,
     ExpandableView,
+    RouteLogs,
+    RouteTest,
   },
   props: {
     route: {
@@ -218,7 +240,7 @@ export default {
         status: this.handleInt(this.status),
         timeOut: this.handleInt(this.timeOut),
         authentication: this.authentication,
-        response: this.response,
+        response: this.handleObject(this.response),
         body: this.handleObject(this.body),
         validation: this.handleObject(this.validation),
       };
@@ -230,7 +252,10 @@ export default {
       return value ? parseInt(value, 10) : undefined;
     },
     handleObject: function (value) {
-      return !value || value === {} ? undefined : value;
+      if (Object.entries(value).length === 0) {
+        return;
+      }
+      return !value ? undefined : value;
     },
     clearFields: function () {
       this.path = "";
@@ -338,47 +363,25 @@ export default {
       });
     },
     onLogs: function () {
-      this.$modal.show(
-        RouteLogs,
-        {
-          route: this.route,
-          logs: this.logs,
-        },
-        {
-          adaptive: true,
-          scrollable: true,
-          reset: true,
-          height: "auto",
-          width: "90%",
-        }
-      );
+      this.$modal.show("logsModal");
     },
     onTest: function () {
-      this.$modal.show(
-        RouteTest,
-        {
-          route: this.route,
-        },
-        {
-          adaptive: true,
-          scrollable: true,
-          reset: true,
-          height: "auto",
-          width: "90%",
-        }
-      );
+      this.$modal.show("testModal");
     },
   },
   computed: {
     isEditing: function () {
       return !!this.route;
     },
+    isSavingDisabled: function () {
+      return !this.path || !this.method;
+    },
     routeNamePlaceholder: function () {
-      if (!this.path || this.path === '') {
-        return 'Name';
+      if (!this.path || this.path === "") {
+        return "Name";
       }
       return this.path;
-    }
+    },
   },
 };
 </script>
@@ -389,5 +392,8 @@ export default {
 }
 .save {
   align-self: center;
+}
+.modal {
+  min-height: 50%;
 }
 </style>

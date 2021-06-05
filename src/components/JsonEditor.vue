@@ -41,7 +41,7 @@ export default {
     return {
       selection: undefined,
       options: {
-        mode: "code",
+        mode: this.mode ?? "code",
         enableSort: false,
         enableTransform: false,
         mainMenuBar: false,
@@ -58,6 +58,7 @@ export default {
   props: {
     label: String,
     value: [Object, Array],
+    mode: String,
   },
 };
 </script>

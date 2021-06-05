@@ -208,8 +208,16 @@ export default {
   text-align: center;
   flex: 0.9;
   margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
-button {
+.close {
   color: white;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+.method {
+  margin-left: 4px;
+  margin-right: 4px;
 }
 </style>

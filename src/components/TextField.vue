@@ -40,4 +40,7 @@
   background-color: #555B62;
   color: white;
 }
+.control-label {
+  color: white;
+}
 </style>

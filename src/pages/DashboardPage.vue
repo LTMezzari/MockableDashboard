@@ -17,6 +17,36 @@
         <Footer class="footer"/>
       </div>
     </div>
+    <modal
+      name="importersModal"
+      :adaptative="true"
+      :scrollable="true"
+      :reset="true"
+      height="auto"
+      width="50%"
+    >
+      <RouteImporter @refresh="getRoutes"/>
+    </modal>
+    <modal
+      name="exportersModal"
+      :adaptative="true"
+      :scrollable="true"
+      :reset="true"
+      height="auto"
+      width="50%"
+    >
+      <RouteExporter @refresh="getRoutes"/>
+    </modal>
+    <modal
+      name="configurationsModal"
+      :adaptative="true"
+      :scrollable="true"
+      :reset="true"
+      height="auto"
+      width="50%"
+    >
+      <UserConfiguration @refresh="getRoutes"/>
+    </modal>
   </div>
 </template>
 
@@ -41,6 +71,9 @@ export default {
     SideBar,
     Header,
     Footer,
+    RouteImporter,
+    RouteExporter,
+    UserConfiguration,
   },
   data: function () {
     return {
@@ -69,15 +102,13 @@ export default {
       this.$refs.editor.putTab(route);
     },
     didPressImport: function () {
-      this.$modal.show(
-        RouteImporter,
-      );
+      this.$modal.show('importersModal');
     },
     didPressExport: function () {
-      this.$modal.show(RouteExporter);
+      this.$modal.show('exportersModal');
     },
     didPressSettings: function () {
-      this.$modal.show(UserConfiguration);
+      this.$modal.show('configurationsModal');
     }
   },
 };

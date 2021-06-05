@@ -1,19 +1,29 @@
 <template>
-    <div>
-        <div>
-            <text-field label="Swagger" v-model="swaggerUrl" />
-            <Button type="info" round @click.native.prevent="onImportSwagger">
-                Import
-            </Button>
+    <div class="root">
+        <div class="row">
+            <div class="col-md-10">
+                <text-field label="Swagger" v-model="swaggerUrl" />
+            </div>
+            <div class="col-md-2">
+                <Button class="center" type="info" round @click.native.prevent="onImportSwagger">
+                    Import
+                </Button>
+            </div>
         </div>
-        <div>
-            <label class="control-label">
-                Postman
-            </label>
-            <input type="file" ref="postmanFile" />
-            <Button type="info" round @click.native.prevent="onImportPostman">
-                Import
-            </Button>
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label">
+                    Postman
+                </label>
+            </div>
+            <div class="col-md-8">
+                <input type="file" ref="postmanFile" />
+            </div>
+            <div class="col-md-2">
+                <Button type="info" round @click.native.prevent="onImportPostman">
+                    Import
+                </Button>
+            </div>
         </div>
     </div>
 </template>
@@ -71,7 +81,7 @@ export default {
                 switch (state) {
                     case States.SUCCESSFUL:
                         this.showSuccess("Routes Added");
-                        this.$emit('imported');
+                        this.$emit('refresh');
                         return;
                     case States.FAILED:
                         this.showError(data.message);
@@ -86,7 +96,7 @@ export default {
                     switch (state) {
                         case States.SUCCESSFUL:
                             this.showSuccess("Routes Added");
-                            this.$emit('imported');
+                            this.$emit('refresh');
                             return;
                         case States.FAILED:
                             this.showError(data.message);
@@ -101,6 +111,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.root {
+  padding: 16px;
+  background-color: #1c1e21;
+}
+.center {
+    align-self: center;
+}
+.control-label {
+    color: white;
+}
 </style>

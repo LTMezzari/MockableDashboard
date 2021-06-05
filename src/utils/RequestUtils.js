@@ -9,6 +9,7 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
     const collection = localStorage.collection ?? localStorage.identifier; 
     config.headers = {
+        ...config.headers,
         'Collection': collection,
     };
     return config;

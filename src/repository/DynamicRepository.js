@@ -3,12 +3,13 @@ import Resource, { SUCCESSFUL, LOADING, FAILED } from '../model/Resource';
 
 export const States = { SUCCESSFUL, LOADING, FAILED };
 
-export function testMethod(method, path, body) {
+export function testMethod(method, path, body, headers) {
     return execute((resource) => api({
+        headers: headers,
         url: path,
+        data: body,
         baseURL,
         method,
-        data: body,
     }).then((response) => {
         resource.postState(SUCCESSFUL, response);
     }).catch((error) => {
