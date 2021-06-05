@@ -32,7 +32,16 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <json-editor label="Body" v-model="body" />
+          <expandable-view label="Body">
+            <json-editor v-model="body" />
+          </expandable-view>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <expandable-view label="Response">
+            <json-editor v-model="response" />
+          </expandable-view>
         </div>
       </div>
     </form>
@@ -44,6 +53,7 @@ import { testMethod, States } from "../repository/DynamicRepository";
 
 import TextField from "../components/TextField.vue";
 import Button from "../components/Button.vue";
+import ExpandableView from "../components/ExpandableView.vue";
 import JsonEditor from "../components/JsonEditor.vue";
 import KeyValueEditor from "../components/KeyValueEditor.vue";
 
@@ -54,6 +64,7 @@ export default {
     Button,
     JsonEditor,
     KeyValueEditor,
+    ExpandableView,
   },
   props: {
     route: {
@@ -62,11 +73,19 @@ export default {
     },
   },
   data: function () {
+    const headers = [];
+    if (this.route.authentication === true) {
+      headers.push({
+        key: 'Authorization',
+        value: 'Bearer of the method'
+      });
+    }
     return {
       path: this.route.path,
       method: this.route.method,
-      headers: [],
+      headers: headers,
       body: {},
+      response: undefined,
     };
   },
   methods: {
@@ -102,6 +121,7 @@ export default {
         this.body,
         this.buildHeaders()
       ).observe((state, data) => {
+        this.response = data;
         switch (state) {
           case States.SUCCESSFUL:
             this.showSuccess("Request successful, check your logs");
@@ -109,6 +129,7 @@ export default {
             break;
           case States.FAILED:
             this.showError(data.message);
+            this.$emit("refresh");
             break;
           default:
             break;

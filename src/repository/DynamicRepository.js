@@ -13,7 +13,10 @@ export function testMethod(method, path, body, headers) {
     }).then((response) => {
         resource.postState(SUCCESSFUL, response);
     }).catch((error) => {
-        resource.postState(FAILED, error);
+        resource.postState(FAILED, {
+            message: error?.message,
+            response: error?.response,
+        });
     }));
 }
 

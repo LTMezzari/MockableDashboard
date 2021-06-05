@@ -17,7 +17,7 @@
           </p>
         </div>
         <div class="parent">
-          <expandable-view v-if="log.data.headers" label="Headers">
+          <expandable-view v-if="isObjectPresent(log.data.headers)" label="Headers">
             <p
               class="property"
               v-for="(header, index) of mapObject(log.data.headers)"
@@ -26,7 +26,7 @@
               {{ header }}
             </p>
           </expandable-view>
-          <expandable-view v-if="log.data.params" label="Params">
+          <expandable-view v-if="isObjectPresent(log.data.params)" label="Params">
             <p
               class="property"
               v-for="(param, index) of mapObject(log.data.params)"
@@ -35,7 +35,7 @@
               {{ param }}
             </p>
           </expandable-view>
-          <expandable-view v-if="log.data.query" label="Query">
+          <expandable-view v-if="isObjectPresent(log.data.query)" label="Query">
             <p
               class="property"
               v-for="(query, index) of mapObject(log.data.query)"
@@ -44,17 +44,18 @@
               {{ query }}
             </p>
           </expandable-view>
-          <expandable-view v-if="log.data.body" label="Body">
-            {{ log.data.body }}
+          <expandable-view v-if="isObjectPresent(log.data.body)" label="Body">
+            <p class="property">{{ log.data.body }}</p>
           </expandable-view>
-          <expandable-view v-if="log.data.response" label="Response">
-            {{ log.data.response }}
+          <expandable-view v-if="isObjectPresent(log.data.response)" label="Response">
+            <p class="property">{{ log.data.response }}</p>
           </expandable-view>
         </div>
       </expandable-view>
     </div>
   </div>
 </template>
+
 <script>
 import { getMethodColor } from "../utils/RouteUtils";
 
@@ -91,9 +92,19 @@ export default {
       }
       return result;
     },
+    isObjectPresent: function (object) {
+      if (
+        !object ||
+        (typeof object === "object" && Object.entries(object).length === 0)
+      ) {
+        return false;
+      }
+      return object;
+    },
   },
 };
 </script>
+
 <style>
 .expandable-label {
   align-items: center;
@@ -120,5 +131,6 @@ export default {
 .property {
   color: white;
   margin: 0px;
+  margin-top: 4px;
 }
 </style>

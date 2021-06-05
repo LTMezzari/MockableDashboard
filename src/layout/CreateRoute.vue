@@ -85,8 +85,11 @@
               />
             </div>
             <div class="col-md-1">
-              <text-field
-                label="Authenticated"
+              <label class="control-label">
+                Authenticated
+              </label>
+              <input
+                class="form-control"
                 placeholder="Authenticated"
                 v-model="authentication"
                 type="checkbox"
@@ -95,9 +98,7 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <slot>
-                <json-editor label="Validator" v-model="validation" />
-              </slot>
+              <json-editor label="Validator" v-model="validation" />
             </div>
           </div>
         </expandable-view>
@@ -239,7 +240,7 @@ export default {
         description: this.handleString(this.description),
         status: this.handleInt(this.status),
         timeOut: this.handleInt(this.timeOut),
-        authentication: this.authentication,
+        authentication: this.handleBoolean(this.authentication),
         response: this.handleObject(this.response),
         body: this.handleObject(this.body),
         validation: this.handleObject(this.validation),
@@ -252,10 +253,14 @@ export default {
       return value ? parseInt(value, 10) : undefined;
     },
     handleObject: function (value) {
-      if (Object.entries(value).length === 0) {
+      if (!value || Object.entries(value).length === 0) {
         return;
       }
       return !value ? undefined : value;
+    },
+    handleBoolean: function (value) {
+      console.log(value);
+      return value == true;
     },
     clearFields: function () {
       this.path = "";

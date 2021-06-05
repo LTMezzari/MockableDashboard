@@ -38,22 +38,23 @@ export default {
   name: "KeyValueEditor",
   props: {
     label: String,
-    properties: Array,
+    value: Array,
   },
   data: function () {
-    let properties = this.properties;
-    if (properties?.length <= 0) {
-      properties = undefined;
+    let value = this.value;
+    if (value?.length <= 0) {
+      value = undefined;
     }
 
-    const fields = properties ?? [
-      {
-        key: "",
-        value: "",
-      },
-    ];
+    const fields = value ?? [];
     return {
-      fields: fields,
+      fields: [
+        ...fields,
+        {
+          key: "",
+          value: "",
+        },
+      ],
     };
   },
   methods: {

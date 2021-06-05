@@ -61,6 +61,29 @@ export default {
   },
   methods: {
     // -------------------------- Handlers
+    onRoutesUpdated: function (routes) {
+      for (let i = this.tabs.length - 1; i >= 0; i--) {
+        const tab = this.tabs[i];
+        if (!tab.route) {
+          continue;
+        }
+
+        const route = routes.find((r) => r.path === tab.route.path && r.method === tab.route.method);
+        if (!route) {
+          this.removeTab(i);
+          if (i === this.currentTab) {
+            this.currentTab = -1;
+            this.currentRoute = undefined;
+          }
+          continue;
+        }
+        this.tabs[i].route = route;
+        if (i === this.currentTab) {
+          this.currentRoute = route;
+        }
+      }
+      this.updateCurrentTab();
+    },
     onTabClosed: function (index) {
       if (this.currentTab === index) {
         this.currentTab = -1;
@@ -157,7 +180,14 @@ export default {
     },
     isTabSelected: function (index) {
       return this.currentTab === index;
-    }
+    },
+    updateCurrentTab: function () {
+      if (this.currentRoute) {
+        const tab = this.tabs.find((t) => t.route === this.currentRoute);
+        const index = this.tabs.indexOf(tab);
+        this.currentTab = index;
+      }
+    },
   },
   computed: {
     hasOpenTab: function () {

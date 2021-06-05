@@ -7,7 +7,7 @@
     </slot>
     <input
       :value="value"
-      @input="$emit('input',$event.target.value)"
+      @input="onChangeValue"
       v-bind="$attrs"
       class="form-control">
   </div>
@@ -29,6 +29,11 @@
         }
       }
     },
+    methods: {
+      onChangeValue: function (e) {
+        this.$emit('input', e.target.value)
+      }
+    }
   }
 </script>
 <style>

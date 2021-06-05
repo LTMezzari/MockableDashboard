@@ -89,6 +89,7 @@ export default {
         switch (state) {
           case States.SUCCESSFUL:
             this.routes = data;
+            this.$refs.editor.onRoutesUpdated(this.routes);
             break;
           case States.FAILED:
             alert(data.message);
