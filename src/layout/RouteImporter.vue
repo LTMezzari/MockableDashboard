@@ -1,13 +1,8 @@
 <template>
     <div class="root">
         <div class="row">
-            <div class="col-md-10">
-                <text-field label="Swagger" v-model="swaggerUrl" />
-            </div>
-            <div class="col-md-2">
-                <Button class="center" type="info" round @click.native.prevent="onImportSwagger">
-                    Import
-                </Button>
+            <div class="col-md-12">
+                <text-field label="Swagger" placeholder="Type the postman url..." v-model="swaggerUrl" />
             </div>
         </div>
         <div class="row">
@@ -16,11 +11,13 @@
                     Postman
                 </label>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <input type="file" ref="postmanFile" />
             </div>
-            <div class="col-md-2">
-                <Button type="info" round @click.native.prevent="onImportPostman">
+        </div>
+        <div class="row justify-content-end mt-3">
+            <div class="col-md-auto">
+                <Button type="info" round @click.native.prevent="onImport">
                     Import
                 </Button>
             </div>
@@ -76,6 +73,17 @@ export default {
             });
         },
         // ------------------------------ Events
+        onImport : function () {
+            if (this.swaggerUrl) {
+                this.onImportSwagger();
+                return;
+            }
+            const files = this.$refs.postmanFile.files[0]
+            if (files) {
+                this.onImportPostman();
+                return;
+            }
+        },
         onImportSwagger: function () {
             postSwaggerImporter(this.swaggerUrl).observe((state, data) => {
                 switch (state) {

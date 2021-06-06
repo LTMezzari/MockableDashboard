@@ -31,7 +31,12 @@
           />
         </div>
         <div class="col-md-2 text-center save">
-          <Button type="info" :disabled="isSavingDisabled" round @click.native.prevent="onSubmit">
+          <Button
+            type="info"
+            :disabled="isSavingDisabled"
+            round
+            @click.native.prevent="onSubmit"
+          >
             Save
           </Button>
         </div>
@@ -85,15 +90,11 @@
               />
             </div>
             <div class="col-md-1">
-              <label class="control-label">
-                Authenticated
-              </label>
-              <input
-                class="form-control"
-                placeholder="Authenticated"
-                v-model="authentication"
-                type="checkbox"
-              />
+                <label class="control-label"> Authenticated </label>
+                <checkbox
+                  placeholder="Authenticated"
+                  v-model="authentication"
+                />
             </div>
           </div>
           <div class="row">
@@ -105,6 +106,7 @@
       </div>
       <div class="text-center">
         <Button
+          class="buttons"
           v-if="isEditing"
           type="info"
           round
@@ -113,6 +115,7 @@
           Test
         </Button>
         <Button
+          class="buttons"
           v-if="isEditing"
           type="warning"
           round
@@ -121,6 +124,7 @@
           Logs
         </Button>
         <Button
+          class="buttons"
           v-if="isEditing"
           type="danger"
           round
@@ -130,26 +134,27 @@
         </Button>
       </div>
     </form>
-    <modal
+    <modal-component
       name="logsModal"
-      :adaptative="true"
+      title="Logs"
       :scrollable="true"
       :reset="true"
       height="auto"
       width="50%"
     >
       <RouteLogs :route="route" :logs="logs" />
-    </modal>
-    <modal
+    </modal-component>
+    <modal-component
       name="testModal"
+      :title="getModalTitle()"
       :adaptative="true"
       :scrollable="true"
       :reset="true"
       height="auto"
       width="90%"
     >
-      <RouteTest :route="route" @refresh="get"/>
-    </modal>
+      <RouteTest :route="route" @refresh="get" />
+    </modal-component>
   </div>
 </template>
 
@@ -166,9 +171,11 @@ import TextField from "../components/TextField.vue";
 import Button from "../components/Button.vue";
 import JsonEditor from "../components/JsonEditor.vue";
 import ExpandableView from "../components/ExpandableView.vue";
+import Checkbox from "../components/Checkbox.vue";
 
 import RouteLogs from "./RouteLogs.vue";
 import RouteTest from "./RouteTest.vue";
+import ModalComponent from '../components/ModalComponent.vue';
 
 export default {
   name: "CreateRoute",
@@ -179,6 +186,8 @@ export default {
     ExpandableView,
     RouteLogs,
     RouteTest,
+    Checkbox,
+    ModalComponent,
   },
   props: {
     route: {
@@ -220,6 +229,12 @@ export default {
   },
   methods: {
     // --------------------- Utility Methods
+    getModalTitle: function () {
+      if (this.route) {
+        return this.route.name ?? this.route.path;
+      }
+      return undefined;
+    },
     onSubmit: function () {
       if (this.isEditing) {
         return this.edit();
@@ -400,5 +415,8 @@ export default {
 }
 .modal {
   min-height: 50%;
+}
+.buttons {
+  margin: 16px;
 }
 </style>

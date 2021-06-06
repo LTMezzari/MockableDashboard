@@ -22,12 +22,10 @@
           @input="onUpdate(index, 'value', $event.target.value)"
         />
       </div>
-      <div
-        class="control"
-        v-if="isDeletable(index)"
-        @click.prevent="onDelete(index)"
-      >
-        Delete
+      <div class="control" v-if="isDeletable(index)">
+        <button @click.prevent="onDelete(index)">
+          <font-awesome-icon color="white" icon="trash" />
+        </button>
       </div>
     </div>
   </div>
@@ -98,13 +96,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .form {
   flex: 1;
 }
 .form-group {
   padding-right: 15px;
   padding-left: 15px;
+  align-items: center;
 }
 .form-input {
   padding: 7px 18px;
@@ -116,5 +115,10 @@ export default {
 }
 .control {
   flex: 0.1;
+  button {
+    background: transparent;
+    border-color: transparent;
+    margin-left: 4px;
+  }
 }
 </style>

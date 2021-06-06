@@ -1,10 +1,10 @@
 <template>
   <div class="root">
     <div class="row">
-      <div class="col-md-6">
-        <text-field label="Name" v-model="postmanName" />
+      <div class="col-md-12">
+        <text-field label="Name" placeholder="Type the collection name" v-model="postmanName"/>
       </div>
-      <div class="col-md-3">
+      <!-- <div class="col-md-3">
         <Button
           type="info"
           round
@@ -12,19 +12,23 @@
         >
           Import
         </Button>
-      </div>
-      <div class="col-md-3">
-        <Button
-          type="info"
-          :disabled="!postmanCollection"
-          round
-          @click.native.prevent="onDownloadPressed"
-        >
-          Download
-        </Button>
-      </div>
+      </div> -->
     </div>
     <json-editor v-if="postmanCollection" :value="postmanCollection" />
+    <div>
+      <div class="row justify-content-end mt-3">
+        <div class="col-md-auto">
+          <Button
+            type="info"
+            :disabled="!postmanCollection"
+            round
+            @click.native.prevent="onDownloadPressed"
+          >
+            Download
+          </Button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -51,6 +55,9 @@ export default {
       postmanName: undefined,
       postmanCollection: undefined,
     };
+  },
+  mounted: function () {
+    this.onPostmanExportPressed();
   },
   methods: {
     // ---------------------------- Utility

@@ -15,6 +15,15 @@ export default {
 };
 </script>
 <style lang="scss">
+.vm--overlay {
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+.vm--modal {
+  background-color: transparent !important;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
 .vue-notifyjs.notifications {
   .alert {
     z-index: 10000;

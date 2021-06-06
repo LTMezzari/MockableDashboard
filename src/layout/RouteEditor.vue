@@ -24,11 +24,13 @@
           class="close"
           v-on:click.stop="onTabClosed(index)"
         >
-          ×
+          <font-awesome-icon color="white" icon="times" />
         </button>
       </div>
       <div class="tab-add" v-on:click="putTab()">
-        <button type="button" aria-hidden="true" class="close">+</button>
+        <button type="button" aria-hidden="true" class="close">
+          <font-awesome-icon icon="plus" />
+        </button>
       </div>
     </div>
     <!-- Content -->
@@ -217,9 +219,8 @@ export default {
   min-height: 34px;
   justify-content: center;
   align-items: center;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  border-bottom: 1px solid white;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 .tab-add {
   max-width: 50px;
@@ -229,8 +230,8 @@ export default {
   align-self: center;
   height: 34px;
   padding: 0 8px 0 8px;
-  border-right: 1px solid white;
-  border-bottom: 1px solid white;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   border-bottom-right-radius: 5px;
 }
 .tab-name {

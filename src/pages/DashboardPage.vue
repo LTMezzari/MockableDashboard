@@ -8,55 +8,57 @@
         v-on:edit="didPressEdit"
         v-on:import="didPressImport"
         v-on:export="didPressExport"
+        @settings="didPressSettings"
       />
       <div class="content">
-        <Header class="header" @settings="didPressSettings"/>
         <div class="main-panel">
           <route-editor ref="editor" v-on:updated="getRoutes" />
         </div>
-        <Footer class="footer"/>
+        <Footer class="footer" />
       </div>
     </div>
-    <modal
+    <modal-component
       name="importersModal"
+      title="Import"
       :adaptative="true"
       :scrollable="true"
       :reset="true"
       height="auto"
       width="50%"
     >
-      <RouteImporter @refresh="getRoutes"/>
-    </modal>
-    <modal
+      <RouteImporter @refresh="getRoutes" />
+    </modal-component>
+    <modal-component
       name="exportersModal"
+      title="Export"
       :adaptative="true"
       :scrollable="true"
       :reset="true"
       height="auto"
       width="50%"
     >
-      <RouteExporter @refresh="getRoutes"/>
-    </modal>
-    <modal
+      <RouteExporter @refresh="getRoutes" />
+    </modal-component>
+    <modal-component
       name="configurationsModal"
+      title="Settings"
       :adaptative="true"
       :scrollable="true"
       :reset="true"
       height="auto"
       width="50%"
     >
-      <UserConfiguration @refresh="getRoutes"/>
-    </modal>
+      <UserConfiguration @refresh="getRoutes" />
+    </modal-component>
   </div>
 </template>
 
 <script>
-import {getRoutes, States} from "../repository/RoutesRepository";
+import { getRoutes, States } from "../repository/RoutesRepository";
 
 // Components
 import RouteEditor from "../layout/RouteEditor.vue";
 import SideBar from "../layout/SideBar.vue";
-import Header from "../layout/Header.vue";
 import Footer from "../layout/Footer.vue";
 
 // Modals
@@ -69,7 +71,6 @@ export default {
   components: {
     RouteEditor,
     SideBar,
-    Header,
     Footer,
     RouteImporter,
     RouteExporter,
@@ -103,38 +104,38 @@ export default {
       this.$refs.editor.putTab(route);
     },
     didPressImport: function () {
-      this.$modal.show('importersModal');
+      this.$modal.show("importersModal");
     },
     didPressExport: function () {
-      this.$modal.show('exportersModal');
+      this.$modal.show("exportersModal");
     },
     didPressSettings: function () {
-      this.$modal.show('configurationsModal');
-    }
+      this.$modal.show("configurationsModal");
+    },
   },
 };
 </script>
 
-<style>
+<style lang="scss">
 .wrapper {
   display: flex;
   flex-direction: column;
-}
-.side-bar {
-  flex: .2;
-  box-shadow: 0;
-}
-.content {
-  flex: .8;
-}
-.header {
-  flex: .1;
-}
-.main-panel {
-  background-color: #232528;
-  box-shadow: inset 1px 0px 0px 0px #dddddd;
-}
-.footer {
-  flex: .1;
+  .side-bar {
+    flex: 0.2;
+    box-shadow: 0;
+  }
+  .content {
+    flex: 0.9;
+  }
+  .header {
+    flex: 0.1;
+  }
+  .main-panel {
+    background-color: #232528;
+    box-shadow: inset 1px 0px 0px 0px #dddddd;
+  }
+  .footer {
+    flex: 0.1;
+  }
 }
 </style>
