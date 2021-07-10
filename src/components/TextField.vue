@@ -25,7 +25,7 @@
         required: false,
       },
       value: {
-        type: [String, Number, Boolean],
+        type: [String, Number],
         required: false,
         default: function () {
           return undefined;

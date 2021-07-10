@@ -274,7 +274,6 @@ export default {
       return !value ? undefined : value;
     },
     handleBoolean: function (value) {
-      console.log(value);
       return value == true;
     },
     clearFields: function () {

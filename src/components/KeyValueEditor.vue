@@ -74,6 +74,7 @@ export default {
         return;
       }
       this.fields.splice(index, 1);
+      this.$emit("input", this.getRealFields());
     },
     shouldAddField: function (index) {
       if (this.fields.length - 1 === index) {
