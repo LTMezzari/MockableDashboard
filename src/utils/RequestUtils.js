@@ -1,7 +1,18 @@
 import axios from 'axios';
 
+export const baseURL = 'http://localhost:3000';
+
 const api = axios.create({
-    baseURL: 'http://localhost:3000/ws/'
+    baseURL: `${baseURL}/ws/`
 });
+
+api.interceptors.request.use((config) => {
+    const collection = localStorage.collection ?? localStorage.identifier; 
+    config.headers = {
+        ...config.headers,
+        'Collection': collection,
+    };
+    return config;
+})
 
 export default api;
