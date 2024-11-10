@@ -98,28 +98,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form {
-  flex: 1;
-}
-.form-group {
-  padding-right: 15px;
-  padding-left: 15px;
-  align-items: center;
-}
-.form-input {
-  padding: 7px 18px;
-  margin-right: 0px !important;
-  margin-left: 0px !important;
-  background-color: #555b62;
-  color: white;
-  border-width: 0.5px;
-}
-.control {
-  flex: 0.1;
-  button {
-    background: transparent;
-    border-color: transparent;
-    margin-left: 4px;
-  }
-}
 </style>

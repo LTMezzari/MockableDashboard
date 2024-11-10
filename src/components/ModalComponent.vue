@@ -22,22 +22,4 @@ export default {
 };
 </script>
 <style lang="scss">
-.modal-header {
-  display: flex;
-  font-size: 8pt;
-  font-family: Courgette;
-  align-items: center;
-  background-color: #8e44ad;
-  color: white;
-  border-bottom-color: transparent;
-  h1 {
-    font-family: Courgette;
-    margin: 0;
-  }
-  button {
-    background: transparent;
-    border-color: transparent;
-    font-size: 20px;
-  }
-}
 </style>

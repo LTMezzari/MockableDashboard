@@ -17,7 +17,7 @@
         <Footer class="footer" />
       </div>
     </div>
-    <modal-component
+    <!-- <modal-component
       name="importersModal"
       title="Import"
       :adaptative="true"
@@ -49,7 +49,7 @@
       width="50%"
     >
       <UserConfiguration @refresh="getRoutes" />
-    </modal-component>
+    </modal-component> -->
   </div>
 </template>
 
@@ -117,25 +117,4 @@ export default {
 </script>
 
 <style lang="scss">
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  .side-bar {
-    flex: 0.2;
-    box-shadow: 0;
-  }
-  .content {
-    flex: 0.9;
-  }
-  .header {
-    flex: 0.1;
-  }
-  .main-panel {
-    background-color: #232528;
-    box-shadow: inset 1px 0px 0px 0px #dddddd;
-  }
-  .footer {
-    flex: 0.1;
-  }
-}
 </style>

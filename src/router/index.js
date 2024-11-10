@@ -1,16 +1,14 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import DashboardPage from '../pages/DashboardPage';
-Vue.use(VueRouter);
+import { createMemoryHistory, createRouter } from 'vue-router';
+import DashboardPage from '../pages/DashboardPage.vue';
 
 const routes = [{
   path: "/",
   component: DashboardPage,
 }]
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createMemoryHistory(),
   routes,
-  linkActiveClass: "active"
 });
 
 export default router;

@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import TextField from "../components/TextField";
-import Button from "../components/Button";
+import TextField from "../components/TextField.vue";
+import Button from "../components/Button.vue";
 
 export default {
   name: "UserConfiguration",

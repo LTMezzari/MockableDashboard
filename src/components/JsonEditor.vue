@@ -5,23 +5,20 @@
         {{ label }}
       </label>
     </slot>
-    <VJsoneditor
+    <!-- <VJsoneditor
       ref="editor"
       :value="value"
       :options="options"
       :plus="false"
       v-bind="$attrs"
-    />
+    /> -->
   </div>
 </template>
 <script>
-import VJsoneditor from "v-jsoneditor/src/index";
+
 export default {
   inheritAttrs: false,
   name: "JsonEditor",
-  components: {
-    VJsoneditor,
-  },
   mounted: function () {
     this.options = {
       ...this.options,

@@ -40,34 +40,4 @@
   }
 </script>
 <style lang="scss">
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: white;
-  opacity: 1; /* Firefox */
-}
-.input-group {
-  height: 44px;
-  background-color: #555B62;
-  color: white;
-  border-radius: 10px;
-  .form-control {
-    background-color: #555B62;
-    color: white;
-  }
-  .input-group-append {
-    .input-group-text {
-      background-color: #555B62;
-      border-color: transparent;
-      padding: 0px !important;
-    }
-  }
-  input {
-    height: auto;
-    &:disabled {
-      color: rgba(255, 255, 255, 0.3);
-    }
-  }
-}
-.control-label {
-  color: white;
-}
 </style>
